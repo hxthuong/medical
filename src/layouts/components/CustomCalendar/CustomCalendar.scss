@@ -1,0 +1,166 @@
+/* Layout tổng thể */
+.calendar-wrapper {
+    display: flex;
+    gap: 24px;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    align-items: flex-start;
+}
+
+/* Sidebar trái */
+.calendar-left {
+    width: 220px;
+}
+
+.calendar-title {
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.calendar-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.calendar-empty {
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.empty-icon {
+    width: 120px;
+    margin-bottom: 4px;
+}
+
+.calendar-wrapper {
+    position: relative;
+
+    .group-btn {
+        position: absolute;
+        left: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-current {
+        position: absolute;
+        right: 15px;
+    }
+}
+
+.btn {
+    padding: 8px 18px;
+    border-radius: 5px;
+    min-width: 50px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+
+    .btn-primary:nth-of-type(2) {
+        margin-left: 0;
+    }
+}
+
+/* React Calendar */
+.react-calendar {
+    width: 100%;
+    font-family: inherit;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+    position: relative;
+}
+
+.react-calendar__navigation__label {
+    flex-grow: 1;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background-color: transparent;
+}
+
+.react-calendar__navigation button {
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.react-calendar__navigation__arrow {
+    display: none;
+}
+
+.react-calendar__month-view__weekdays {
+    display: flex;
+    text-align: center;
+    font-weight: 500;
+    color: var(--primary);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    flex: 1;
+    padding: 6px 0;
+    border: 1px solid #e0e0e0;
+
+    & abbr {
+        text-decoration: none;
+        font-weight: 600;
+    }
+}
+
+.react-calendar__month-view__days {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.react-calendar__tile {
+    flex: 0 0 14.2857%;
+    max-width: 14.2857%;
+    border: 1px solid #e0e0e0;
+    text-align: right;
+    padding: 5px 10px;
+    font-size: 1.6rem;
+    background: #fff;
+    transition: background 0.2s ease-in-out;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+        background: var(--secondary);
+    }
+}
+
+/* Ngày hiện tại */
+.react-calendar__tile--now {
+    background: #fff9e6;
+    border-color: #f5c842;
+    font-weight: bold;
+}
+
+/* Ngày đang chọn */
+.react-calendar__tile--active {
+    background: var(--primary) !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Ngày thuộc tháng khác */
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: var(--secondary);
+}

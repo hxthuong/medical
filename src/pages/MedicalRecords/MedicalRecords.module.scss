@@ -1,0 +1,76 @@
+.wrapper {
+    // height: calc(100vh - 82px - 20px - 30px * 2);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-patient {
+    width: 600px;
+}
+
+.btn-action {
+    + .btn-action {
+        margin-left: 10px;
+    }
+}
+
+.form-calendar {
+    position: relative;
+
+    .icon-calendar {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+    }
+}
+
+.patient-info {
+    margin-top: 15px;
+}
+
+.records {
+    margin-top: 25px;
+}
+
+.info-group {
+    display: flex;
+    justify-content: center;
+}
+
+.info-title,
+.info-content {
+    padding: 1rem;
+    vertical-align: top;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-right: none;
+    border-top: none;
+}
+
+// .info-group {
+//     .col-md-6 {
+//         padding: 0;
+//     }
+// }
+
+.info {
+    padding: 0;
+}
+
+.info-group:first-of-type .info-title,
+.info-group:first-of-type .info-content {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.info-group .info:last-of-type {
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.info-title {
+    font-weight: 600;
+    background-color: var(--secondary);
+}

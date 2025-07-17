@@ -1,0 +1,215 @@
+@import 'normalize.css';
+
+:root {
+    --black: #000;
+    --white: #fff;
+    --primary: #3b71ca;
+    --secondary: rgb(225.6, 233.7, 247.05);
+    --danger: #fe2c55;
+    --success: rgb(20, 164, 77);
+    --warning: #e4a11b;
+
+    //button
+    --btn-primary-hover: rgb(56.05, 107.35, 191.9);
+    --btn-primary-shadow: 0 4px 9px -4px rgb(56.05, 107.35, 191.9);
+    --btn-secondary-shadow: 0 4px 9px -4px rgb(227.07, 234.765, 247.4475);
+    --btn-secondary-hover: rgb(6, 6, 6);
+    --btn-danger-shadow: 0 4px 9px -4px #fe2c55;
+    --btn-danger-hover: #fe2c55;
+
+    //text
+    --text-color: #161823;
+    --text-secondary: rgb(41.3, 79.1, 141.4);
+
+    --font-family: Roboto, sans-serif;
+
+    // Default layout
+    --default-layout-header-height: 60px;
+    --default-layout-width: 1150px;
+    --default-layout-horizontal-spacer: 24px;
+
+    --default-sidebar-width: 240px;
+
+    --default-content-spacer: 20px;
+    --default-header-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizespeed;
+    color: var(--text-color);
+    background-color: rgba(0, 0, 0, 0.15);
+    // overflow-y: hidden;
+}
+
+// Scrollbar CSS
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+button,
+input,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+// Fonts emmbeded
+// @font-face {
+//     font-family: ProximaNova;
+//     src: url('/assets/fonts/Proxima-Nova-Regular.woff2');
+//     font-weight: 400;
+// }
+
+// @font-face {
+//     font-family: ProximaNova;
+//     src: url('/assets/fonts/ProximaNova-Semibold.woff2');
+//     font-weight: 600;
+// }
+
+// @font-face {
+//     font-family: ProximaNova;
+//     src: url('/assets/fonts/Proxima-Nova-Bold.woff');
+//     font-weight: 700;
+// }
+
+// @font-face {
+//     font-family: SofiaPro;
+//     src: url('/assets/fonts/sofiapro-bold.woff');
+//     font-weight: 700;
+// }
+
+.form-check.form-check-inline {
+    + .form-check-inline {
+        margin-left: 15px;
+    }
+}
+
+//text-color
+.text-primary {
+    color: var(--primary);
+}
+
+.text-warning {
+    color: var(--warning);
+}
+
+.text-danger {
+    color: var(--danger);
+}
+
+//badge
+.badge {
+    padding: 7px 10px;
+}
+
+.badge-primary {
+    background-color: var(--primary);
+}
+
+.badge-warning {
+    background-color: var(--warning);
+}
+
+.badge-success {
+    background-color: var(--success);
+}
+
+.badge-danger {
+    background-color: var(--danger);
+}
+
+.form-group {
+    width: 100%;
+
+    + .form-group {
+        margin-top: 15px;
+    }
+}
+
+.form-label {
+    font-weight: 600;
+    font-family: inherit;
+}
+
+.form-control {
+    border: 1px solid rgba(22, 24, 35, 0.2);
+    border-radius: 5px;
+    caret-color: var(--primary);
+    font-size: 1.6rem;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+}
+
+//datepicker
+.react-datepicker {
+    font-family: inherit;
+    transform: scale(1.5);
+    transform-origin: top left;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+
+// Custom tippy tooltip
+body {
+    .tippy-box {
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+        background-color: rgba(84, 84, 84, 0.92);
+    }
+
+    .tippy-arrow {
+        color: rgba(84, 84, 84, 0.92);
+    }
+
+    .tippy-content {
+        padding: 8px 9px;
+    }
+
+    .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
+        top: -8px;
+    }
+}
+
+h1 {
+    font-weight: 700;
+}
+
+h2 {
+    font-weight: 600;
+}

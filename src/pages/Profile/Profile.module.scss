@@ -1,0 +1,65 @@
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.avatar-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-content {
+    position: relative;
+
+    & span {
+        color: white;
+        font-size: 1.8rem;
+    }
+}
+
+.avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.overlay {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.file-upload {
+    display: none;
+}
+
+.info-wrapper {
+    margin: 15px auto;
+    width: 500px;
+}
+
+.info-item {
+    + .info-item {
+        margin-top: 15px;
+    }
+}
+
+.action {
+    margin-top: 15px;
+}
