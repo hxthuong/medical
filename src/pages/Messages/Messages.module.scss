@@ -11,9 +11,8 @@
     overflow-y: scroll;
     position: relative;
 
-    .search,
-    .search-result {
-        width: 250px;
+    .search {
+        width: 100%;
         padding-left: 6px;
     }
 
@@ -26,6 +25,7 @@
     button {
         margin-left: -6px;
         right: calc(var(--search-button-width));
+        width: calc(var(--search-button-width) - 10px);
     }
 }
 
@@ -220,6 +220,7 @@
         border-radius: 16px;
         max-width: 60%;
         word-break: break-word;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px;
     }
 
     .avatar + .bubble,

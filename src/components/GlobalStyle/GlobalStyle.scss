@@ -6,7 +6,7 @@
     --primary: #3b71ca;
     --secondary: rgb(225.6, 233.7, 247.05);
     --danger: #fe2c55;
-    --success: rgb(20, 164, 77);
+    --success: rgb(24, 220, 102); //rgb(20, 164, 77);
     --warning: #e4a11b;
 
     //button
@@ -29,9 +29,14 @@
     --default-layout-horizontal-spacer: 24px;
 
     --default-sidebar-width: 240px;
+    --default-sidebar-collapsed-width: 65px;
 
     --default-content-spacer: 20px;
     --default-header-height: 60px;
+}
+
+.text-success {
+    color: rgb(24, 220, 102) !important;
 }
 
 * {

@@ -4,7 +4,14 @@
 
 .container {
     width: 100%;
-    margin-left: var(--default-sidebar-width);
+
+    &.collapsed {
+        margin-left: var(--default-sidebar-collapsed-width);
+    }
+
+    &.expanded {
+        margin-left: var(--default-sidebar-width);
+    }
 }
 
 .content-wrapper {

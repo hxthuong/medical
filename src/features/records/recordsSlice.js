@@ -5,10 +5,29 @@ const recordsSlice = createSlice({
     name: 'records',
     initialState: {
         list: [],
+        selectPatient: null,
+        selectService: null,
+        selectFiles: [],
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        selectPatient: (state, action) => {
+            state.selectPatient = action.payload;
+        },
+        selectService: (state, action) => {
+            state.selectService = action.payload;
+        },
+        selectFiles: (state, action) => {
+            // Chỉ lưu name, size, type — không phải File object
+            // state.selectFiles = action.payload.map((file) => ({
+            //     name: file?.name,
+            //     size: file?.size,
+            //     type: file?.type,
+            // }));
+            state.selectFiles = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             //fetch records
@@ -71,4 +90,5 @@ const recordsSlice = createSlice({
     },
 });
 
+export const { selectPatient, selectService, selectFiles } = recordsSlice.actions;
 export default recordsSlice.reducer;

@@ -4,12 +4,18 @@ import classNames from 'classnames/bind';
 import Image from '~/components/Image';
 import styles from './AccountMessageItem.module.scss';
 import images from '~/assets/images';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
 function AccountMessageItem({ data, color, active, onClick = defaultFn }) {
+    // const { list: accounts } = useSelecto((state) => state.accounts);
+
+    // const account = accounts && accounts.length > 0 ? accounts.find((x) => x.id === data?.receiver) : null;
+    // console.log(data);
     return (
         <Link to={''} className={cx('wrapper', { [color]: color }, active ? 'active' : '')} onClick={onClick}>
             <Image
@@ -20,6 +26,11 @@ function AccountMessageItem({ data, color, active, onClick = defaultFn }) {
             <div className={cx('info')}>
                 <h4 className={cx('name')}>
                     <span>{data?.displayName || data?.receiverName || 'Chưa xác định'}</span>
+                    {!data?.lastMessage && !!data?.online && (
+                        <span className={cx('text-success', 'online')}>
+                            <FontAwesomeIcon icon={faCircle} />
+                        </span>
+                    )}
                 </h4>
                 <span className={cx('message')}>{data?.lastMessage}</span>
             </div>

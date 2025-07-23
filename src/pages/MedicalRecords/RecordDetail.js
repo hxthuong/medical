@@ -8,11 +8,12 @@ import { faChevronLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import DataTable from '~/components/DataTable';
 import Tippy from '@tippyjs/react';
 import { faEdit, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { ModalEdit } from './Modals';
+import { ModalBooking } from './Modals';
 import ModalDelete from '~/components/Modal/ModalDelete';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteRecord, fetchRecords } from '~/thunks/records';
 import { fetchPatients } from '~/thunks/patients';
+import { selectPatient, selectService } from '~/features/records/recordsSlice';
 
 const cx = classNames.bind(styles);
 
@@ -23,30 +24,38 @@ function RecordDetail() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-    const [service, setService] = useState(null);
+    const [isEdit, setIsEdit] = useState(false);
     const [reloadFlag, setReloadFlag] = useState(1);
 
     const { list: patients } = useSelector((state) => state.patients);
     const { list: recordList } = useSelector((state) => state.records);
+    const patient = useSelector((state) => state.records.selectPatient);
+    const service = useSelector((state) => state.records.selectService);
 
     useEffect(() => {
         dispatch(fetchPatients({ ID: recordId }));
         dispatch(fetchRecords({ registrationID: recordId }));
     }, [dispatch, recordId, reloadFlag]);
 
-    const patient = patients && patients.length > 0 ? patients[0] : null;
+    useEffect(() => {
+        if (patients?.length) {
+            dispatch(selectPatient(patients[0]));
+        }
+    }, [patients, dispatch]);
 
     const handleBack = () => {
         navigate(-1);
     };
 
     const handleOpenModalAdd = () => {
-        setService(null);
+        setIsEdit(false);
+        dispatch(selectService(null));
         setIsModalOpen(true);
     };
 
     const handleOpenModalEdit = (row) => {
-        setService(row);
+        setIsEdit(true);
+        dispatch(selectService(row ?? null));
         setIsModalOpen(true);
     };
 
@@ -56,7 +65,7 @@ function RecordDetail() {
     };
 
     const handleOpenModalDelete = (row) => {
-        setService(row);
+        dispatch(selectService(row ?? null));
         setIsModalDeleteOpen(true);
     };
 
@@ -185,12 +194,14 @@ function RecordDetail() {
                         </Button>
                     }
                 />
-                <ModalEdit
-                    title={service ? 'Cập nhật dịch vụ' : 'Đăng ký dịch vụ'}
-                    data={service || null}
+
+                <ModalBooking
+                    className={cx('modal-patient')}
+                    title={isEdit ? 'Cập nhật dịch vụ' : 'Đăng ký dịch vụ'}
                     visible={isModalOpen}
                     onClose={handleCloseModal}
                 />
+
                 <ModalDelete
                     content={`${service?.serviceName}?` ?? ''}
                     isOpen={isModalDeleteOpen}

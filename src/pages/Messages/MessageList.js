@@ -51,7 +51,7 @@ const MessageList = () => {
     return chatUser ? (
         <div className={cx('content')}>
             <div className={cx('header-info')}>
-                <AccountItem data={chatUser} type="mini" />
+                <AccountItem data={chatUser} type="mini" showOnline={true} />
             </div>
             <div className={cx('message-content')} ref={scrollRef}>
                 {messageData.map((entry, i) => (

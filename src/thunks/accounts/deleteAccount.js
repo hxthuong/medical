@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import accountsService from '~/services/accounts';
 
-const deleteAccount = createAsyncThunk('account/deleteAccount', async ({ id }, { rejectWithValue }) => {
+const deleteAccount = createAsyncThunk('accounts/deleteAccount', async ({ id }, { rejectWithValue }) => {
     try {
         const result = await accountsService.remove(id);
         toast.success('Xóa thông tin người dùng thành công!');

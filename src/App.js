@@ -1,35 +1,55 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DefaultLayout } from './layouts';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import Login from './pages/Login';
 import { loadFromLocalStorage } from './utils/localStorageRequest';
 import { getRoutesByRole } from './config/roles';
-import { useDispatch } from 'react-redux';
-import { editAccount } from './thunks/accounts';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAccount } from './thunks/accounts';
 
 function App() {
     const dispatch = useDispatch();
+
     const handleOffline = (value) => {
-        let formData = new FormData();
-        const request = { ...value, online: false };
-        formData.append('Data', JSON.stringify(request));
-        formData.append('Files', null);
-        dispatch(editAccount(formData));
+        dispatch(loginAccount({ username: value?.user?.username, password: '' }));
     };
-    const login = loadFromLocalStorage('user', handleOffline) ?? null;
-    const role = login && login.user ? login?.user?.role : null;
+
+    const { account, login } = useSelector((state) => state.accounts);
+
+    useEffect(() => {
+        const loginData = loadFromLocalStorage('user', handleOffline) ?? null;
+        dispatch(loginAccount({ username: loginData?.user?.username, password: loginData?.user?.password }));
+    }, [dispatch]);
+
+    //sự kiện khi đóng trình duyệt
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            // event.returnValue = ''; // Hiển thị hộp thoại xác nhận (tùy trình duyệt)
+
+            const blob = new Blob([JSON.stringify({ username: account?.username, password: '' })], {
+                type: 'application/json',
+            });
+
+            navigator.sendBeacon('http://localhost:6001/api/Users/Login', blob);
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [account]);
+
+    const role = account ? account?.role : null;
     const routes = getRoutesByRole(role);
 
-    let Component = (
-        <div className="App">
-            <Login />
-        </div>
-    );
-
-    if (login && login.isLogin) {
-        Component = (
-            <Router>
-                <div className="App">
+    return (
+        <Router>
+            <div className="App">
+                {!login ? (
+                    <Login />
+                ) : (
                     <Routes>
                         {routes.map((route, index) => {
                             const Page = route.component;
@@ -51,12 +71,10 @@ function App() {
                             );
                         })}
                     </Routes>
-                </div>
-            </Router>
-        );
-    }
-
-    return Component;
+                )}
+            </div>
+        </Router>
+    );
 }
 
 export default App;

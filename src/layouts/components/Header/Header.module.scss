@@ -1,5 +1,4 @@
 .wrapper {
-    width: calc(100vw - var(--default-sidebar-width));
     height: var(--default-header-height);
     background-color: white;
     padding: 0 25px;
@@ -9,6 +8,12 @@
     justify-content: space-between;
     position: fixed;
     z-index: 999;
+    width: calc(100vw - var(--default-sidebar-width));
+    transition: width ease-in-out 0.2s;
+
+    &.collapsed {
+        width: calc(100vw - var(--default-sidebar-collapsed-width));
+    }
 }
 
 .header-info,

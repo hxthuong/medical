@@ -8,6 +8,7 @@ import Image from '~/components/Image';
 import images from '~/assets/images';
 import { useDispatch, useSelector } from 'react-redux';
 import { listPatients } from '~/thunks/patients';
+import { loadFromLocalStorage } from '~/utils/localStorageRequest';
 
 function CustomCalendar() {
     const [date, setDate] = useState(new Date());
@@ -22,8 +23,12 @@ function CustomCalendar() {
         dispatch(listPatients({ id: null }));
     }, [dispatch]);
 
+    const login = loadFromLocalStorage('user') ?? null;
     // Hàm kiểm tra ngày có icon
-    const isEventDate = (date) => patients.some((d) => new Date(d.requestDate).toDateString() === date.toDateString());
+    const isEventDate = (date) =>
+        patients.some(
+            (d) => new Date(d.requestDate).toDateString() === date.toDateString() && d.doctorID === login?.user?.id,
+        );
 
     const handlePrevMonth = () => {
         const prevMonth = new Date(date);
@@ -40,20 +45,27 @@ function CustomCalendar() {
     const handleToday = () => {
         setDate(new Date());
         setSelectedDate(new Date());
-        const schedules = patients.filter((d) => new Date(d.requestDate).toDateString() === new Date().toDateString());
+        const schedules = patients.filter(
+            (d) =>
+                new Date(d.requestDate).toDateString() === new Date().toDateString() && d.doctorID === login?.user?.id,
+        );
         setSchedules(schedules);
     };
 
     const handleClick = (value, event) => {
         setSelectedDate(value);
-        const schedules = patients.filter((d) => new Date(d.requestDate).toDateString() === value.toDateString());
+        const schedules = patients.filter(
+            (d) => new Date(d.requestDate).toDateString() === value.toDateString() && d.doctorID === login?.user?.id,
+        );
         setSchedules(schedules);
     };
 
     const handleAll = () => {
-        setSchedules(patients);
+        const schedules = patients.filter((d) => d.doctorID === login?.user?.id);
+        setSchedules(schedules);
     };
 
+    console.log(schedules);
     return (
         <div className={'calendar-wrapper'}>
             <div className="row" style={{ width: '100%' }}>
@@ -72,8 +84,8 @@ function CustomCalendar() {
                             <ul>
                                 {schedules.map((item) => (
                                     <li key={item.id}>
-                                        {new Date(item.requestDate).toLocaleDateString('en-GB')} - {item.name} -{' '}
-                                        {item.serviceName}
+                                        {item.requestTime} - {new Date(item.requestDate).toLocaleDateString('en-GB')} -{' '}
+                                        {item.name} - {item.serviceName}
                                     </li>
                                 ))}
                             </ul>

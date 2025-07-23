@@ -37,6 +37,12 @@
 .name {
     font-size: 1.6rem;
     font-weight: 600;
+
+    .online {
+        margin-left: 5px;
+        // color: #85ea2d;
+        font-size: 1.4rem;
+    }
 }
 
 .username {

@@ -4,11 +4,11 @@ import { NavLink } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function SidebarItem({ icon, title, to }) {
+function SidebarItem({ icon, title, to, expanded }) {
     return (
         <NavLink className={(nav) => cx('sidebar-item', { active: nav.isActive })} to={to}>
             <span className={cx('icon')}>{icon}</span>
-            <span className={cx('title')}>{title}</span>
+            {expanded && <span className={cx('title')}>{title}</span>}
         </NavLink>
     );
 }

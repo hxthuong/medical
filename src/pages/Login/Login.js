@@ -8,8 +8,9 @@ import Button from '~/components/Button';
 import accountsService from '~/services/accounts';
 import images from '~/assets/images';
 import { useDispatch, useSelector } from 'react-redux';
-import { editAccount, loginAccount } from '~/thunks/accounts';
-import { loadFromLocalStorage, saveToLocalStorage } from '~/utils/localStorageRequest';
+import { loginAccount } from '~/thunks/accounts';
+import { saveToLocalStorage } from '~/utils/localStorageRequest';
+import { setLogin } from '~/features/accounts/accountsSlice';
 
 const cx = classNames.bind(styles);
 
@@ -21,14 +22,14 @@ function Login() {
     const [displayName, setDisplayName] = useState('');
     const [gender, setGender] = useState('1');
     const [loading, setLoading] = useState(false);
-    const [login, setLogin] = useState(() => {
-        const storage = loadFromLocalStorage('user') ?? null;
-        return storage && storage.isLogin ? storage : null;
-    });
-
     const dispatch = useDispatch();
 
     const { account } = useSelector((state) => state.accounts);
+
+    // const [login, setLogin] = useState(() => {
+    //     const storage = loadFromLocalStorage('user') ?? null;
+    //     return storage && storage.isLogin ? storage : null;
+    // });
 
     const handleVisiblePassword = (e) => {
         e.preventDefault();
@@ -36,38 +37,46 @@ function Login() {
     };
 
     useEffect(() => {
-        const accountData = account === null ? null : { ...account, online: account && account !== '' };
-
-        const userLogin =
-            accountData === null
-                ? null
-                : {
-                      isLogin: accountData ? true : false,
-                      user: accountData ?? null,
-                  };
-
-        if (accountData) {
-            saveToLocalStorage('user', { isLogin: true, user: accountData });
-            window.location.href = '/';
-            setLoading(false);
-        } else if (accountData === '') {
-            userLogin.isLogin = false;
+        if (account && account.username) {
+            dispatch(setLogin(account));
+            saveToLocalStorage('user', { isLogin: true, user: account });
         }
+    }, [dispatch, account]);
 
-        let formData = new FormData();
-        formData.append('Data', JSON.stringify(accountData));
-        formData.append('Files', null);
-        dispatch(editAccount(formData));
+    // useEffect(() => {
+    //     const accountData = account === null ? null : { ...account, online: account && account !== '' };
 
-        setLogin(userLogin);
-    }, [account, dispatch]);
+    //     const userLogin =
+    //         accountData === null
+    //             ? null
+    //             : {
+    //                   isLogin: accountData ? true : false,
+    //                   user: accountData ?? null,
+    //               };
+
+    //     if (accountData) {
+    //         // saveToLocalStorage('user', { isLogin: true, user: accountData });
+    //         dispatch(setLogin({ login: true, account: accountData }));
+    //         navigate('/');
+    //         setLoading(false);
+    //     } else if (accountData === '') {
+    //         userLogin.isLogin = false;
+    //     }
+
+    //     let formData = new FormData();
+    //     formData.append('Data', JSON.stringify(accountData));
+    //     formData.append('Files', null);
+    //     dispatch(editAccount(formData));
+
+    //     setLogin(userLogin);
+    // }, [account, dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        setLoading(false);
 
         if (register) {
-            const result = await accountsService.register({
+            accountsService.register({
                 username,
                 password,
                 displayName,
@@ -76,15 +85,13 @@ function Login() {
             });
 
             setTimeout(() => {
-                saveToLocalStorage('user', { isLogin: true, user: result });
-                window.location.href = '/';
                 setLoading(false);
             }, 1000);
 
             return;
         }
 
-        dispatch(loginAccount({ username, password }));
+        await dispatch(loginAccount({ username, password }));
         setPassword('');
     };
 
@@ -93,15 +100,14 @@ function Login() {
         setRegister(true);
     };
 
-    let Alert = () => {
-        if (login === null) return;
-
-        if (!login.isLogin) {
-            return <p className={cx('text-danger')}>Username hoặc pasword không đúng</p>;
-        } else {
-            window.location.href = '/';
-        }
-    };
+    // let Alert = () => {
+    //     // if (isLogin === null || isLogin === '') return;
+    //     // if (!isLogin) {
+    //     //     return <p className={cx('text-danger')}>Username hoặc pasword không đúng</p>;
+    //     // } else {
+    //     //     navigate('/');
+    //     // }
+    // };
 
     return (
         <div className={cx('wrapper')}>
@@ -188,7 +194,7 @@ function Login() {
                                     {register ? 'Đăng ký' : 'Đăng nhập'}
                                 </Button>
                             </div>
-                            {<Alert />}
+                            {/* {<Alert />} */}
                             {!register && (
                                 <div className={cx('form-group')}>
                                     <span>Hoặc </span>

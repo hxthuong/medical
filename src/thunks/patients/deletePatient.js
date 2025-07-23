@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import patientsService from '~/services/patients';
 
-const deletePatient = createAsyncThunk('records/deletePatient', async ({ id }, { rejectWithValue }) => {
+const deletePatient = createAsyncThunk('patients/deletePatient', async ({ id }, { rejectWithValue }) => {
     try {
         const result = await patientsService.remove(id);
         toast.success('Xóa thông tin bệnh nhân thành công!');

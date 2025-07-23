@@ -7,16 +7,20 @@ import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
 import { useState } from 'react';
 import ModalChangePass from './ModalChangePass';
-import { useDispatch } from 'react-redux';
-import { editAccount } from '~/thunks/accounts';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearLocalStorage, loadFromLocalStorage } from '~/utils/localStorageRequest';
+import { loginAccount } from '~/thunks/accounts';
 
 const cx = classNames.bind(styles);
 
-function Header({ title }) {
+const defaultFn = () => {};
+
+function Header({ title, isExpanded, onClick = defaultFn }) {
     const login = loadFromLocalStorage('user') ?? null;
     const data = login?.user;
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const { account } = useSelector((state) => state.accounts);
 
     const dispatch = useDispatch();
 
@@ -27,15 +31,9 @@ function Header({ title }) {
 
     const handleLogout = (e) => {
         e.preventDefault();
-
-        let formData = new FormData();
-        const accountData = { ...login.user, online: false };
-        formData.append('Data', JSON.stringify(accountData));
-        formData.append('Files', null);
-        dispatch(editAccount(formData));
-
+        dispatch(loginAccount({ username: account?.username, password: '' }));
         clearLocalStorage();
-        window.location.reload();
+        window.location.href = '/';
     };
 
     const MENU_ACTIONS = [
@@ -45,9 +43,9 @@ function Header({ title }) {
     ];
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', !isExpanded ? 'collapsed' : '')}>
             <div className={cx('header-info')}>
-                <Button className={cx('btn-icon')} onClick={() => console.log()}>
+                <Button className={cx('btn-icon')} onClick={onClick}>
                     <FontAwesomeIcon icon={faList} />
                 </Button>
                 <h1 className={cx('title')}>{title}</h1>

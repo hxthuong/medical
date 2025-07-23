@@ -4,6 +4,7 @@ import recordsReducer from '~/features/records/recordsSlice';
 import servicesReducer from '~/features/services/servicesSlice';
 import accountsReducer from '~/features/accounts/accountsSlice';
 import messagesReducer from '~/features/messages/messagesSlice';
+import filesReducer from '~/features/files/filesSlice';
 
 export const store = configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
         services: servicesReducer,
         accounts: accountsReducer,
         messages: messagesReducer,
+        files: filesReducer,
     },
 });

@@ -1,15 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchAccounts, addAccount, editAccount, loginAccount, deleteAccount } from '~/thunks/accounts';
+import { loadFromLocalStorage } from '~/utils/localStorageRequest';
+
+const persistedUser = loadFromLocalStorage('user');
 
 const accountsSlice = createSlice({
     name: 'accounts',
     initialState: {
         list: [],
-        account: null,
+        account: persistedUser?.user ?? null,
+        login: persistedUser?.user?.isLogin ?? false,
         loading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        setLogin: (state, action) => {
+            state.login = true;
+            state.account = action.payload;
+        },
+        setLogout: (state) => {
+            state.login = false;
+            state.account = null;
+        },
+    },
     extraReducers: (builder) => {
         builder
             //fetch Accounts
@@ -85,4 +98,5 @@ const accountsSlice = createSlice({
     },
 });
 
+export const { setLogin, setLogout } = accountsSlice.actions;
 export default accountsSlice.reducer;

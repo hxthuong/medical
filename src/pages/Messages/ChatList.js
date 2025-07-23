@@ -97,7 +97,12 @@ const ChatList = () => {
                         setSearch('');
                     }}
                     render={(attrs) => (
-                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                        <div
+                            className={cx('search-result')}
+                            tabIndex="-1"
+                            style={{ width: `calc(${inputRef.current?.offsetWidth + 30}px)` || '100%' }}
+                            {...attrs}
+                        >
                             <PopperWrapper>
                                 {accounts.map((item) => (
                                     <AccountMessageItem key={item.id} data={item} onClick={() => handleSelect(item)} />

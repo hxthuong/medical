@@ -1,5 +1,4 @@
 .wrapper {
-    width: var(--default-sidebar-width);
     height: 100vh;
     box-shadow: 1px 0 1px rgb(0 0 0 / 12%);
     background-color: var(--primary);
@@ -8,11 +7,23 @@
     flex-direction: column;
     padding: 20px 10px;
     position: fixed;
+    width: var(--default-sidebar-width);
+    transition: width ease-in-out 0.2s;
+
+    &.collapsed {
+        width: var(--default-sidebar-collapsed-width);
+    }
+
+    &.collapsed .logo {
+        width: 50px;
+    }
 }
 
 .logo {
     border-radius: 50%;
     object-fit: cover;
+    width: 200px;
+    transition: width ease-in-out 0.2s;
 }
 
 .menu-sidebar {
@@ -47,4 +58,39 @@
     bottom: 0;
     width: 100%;
     border-top: 1px solid var(--secondary);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.account-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+    will-change: opacity, transform;
+
+    &.fade-exit {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
+
+    &.fade-enter {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    &.fade-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }

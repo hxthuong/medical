@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
@@ -10,16 +10,21 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { editAccount, fetchAccounts } from '~/thunks/accounts';
 import { getNameByRole } from '~/config/roles';
+import { saveToLocalStorage } from '~/utils/localStorageRequest';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
     const { username } = useParams();
 
+    const [account, setAccount] = useState(null);
     const [previewImage, setPreviewImage] = useState();
     const [file, setFile] = useState(null);
     const [name, setName] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     const { list: accounts } = useSelector((state) => state.accounts);
@@ -28,7 +33,11 @@ function Profile() {
         dispatch(fetchAccounts({ keyword: username }));
     }, [dispatch, username]);
 
-    const account = accounts && accounts.length > 0 ? accounts[0] : null;
+    useEffect(() => {
+        if (accounts?.length) {
+            setAccount(accounts[0]);
+        }
+    }, [accounts]);
 
     const handleChangeFile = (e) => {
         const file = e.target.files[0];
@@ -47,13 +56,23 @@ function Profile() {
     const handleSave = () => {
         let formData = new FormData();
 
-        const accountData = { ...account, displayName: name };
+        const accountData = {
+            ...account,
+            displayName: name || account?.displayName,
+            avatar: previewImage || account?.avatar,
+        };
 
         formData.append('Data', JSON.stringify(accountData));
 
         formData.append('Files', file);
 
+        saveToLocalStorage('user', { isLogin: true, user: accountData });
+
         dispatch(editAccount(formData));
+
+        // setName('');
+
+        // navigate(`${config.routes.profile.replace(':username', account?.username)}`);
     };
 
     const ActiveStatus = (status) => {
@@ -83,6 +102,10 @@ function Profile() {
                         <img
                             className={cx('avatar')}
                             src={previewImage || account?.avatar || images.noImage}
+                            onError={(e) => {
+                                e.target.onerror = null; // tránh lặp vô hạn nếu fallback cũng lỗi
+                                e.target.src = images.noImage; // ảnh thay thế
+                            }}
                             alt="avatar"
                         />
                         <div className={cx('overlay')}>

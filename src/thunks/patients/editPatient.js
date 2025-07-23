@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import patientsService from '~/services/patients';
 
-const editPatient = createAsyncThunk('records/editPatient', async (params, { rejectWithValue }) => {
+const editPatient = createAsyncThunk('patients/editPatient', async (params, { rejectWithValue }) => {
     try {
         const result = await patientsService.edit(params);
         toast.success('Chỉnh sửa thông tin bệnh nhân thành công!');

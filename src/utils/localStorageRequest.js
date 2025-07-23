@@ -1,4 +1,5 @@
 export const saveToLocalStorage = (key, value) => {
+    localStorage.removeItem(key);
     const expiry = Date.now() + 30 * 60 * 1000; // 30 phút
     localStorage.setItem(key, JSON.stringify({ value, expiry }));
 };
